@@ -7,10 +7,15 @@ const UserSchema=new Schema({
     hashed_password:{type:String,default:''},
     salt:{type:String,default:''},
     username:{type:String,default:''},
-    address:{type:String,default:''}
+    address:{type:String,default:''},
+    Roles:[{type:Schema.ObjectId,ref:'Role'}]
 
 });
 
+const RoleSchema = new Schema({
+    roleName:{type:String,default:''},
+    routers:{url:String,title:String,action:[String]}
+});
 /**
  * Virtuals;
  */
