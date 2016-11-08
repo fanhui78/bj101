@@ -1,21 +1,12 @@
-'use strict';
+'use strict'
 
-const mongoose = require('mongooose');
-const LocalStrategy = require('passport-local').Strategy;
+const mongoose = require('mongoose');
 const User = mongoose.model('User');
+const local = require('./local');
 
-module.exports = new LocalStrategy({
-    usernameField: 'mobile',
-    passwordField: 'password'
-    },
-    function(mobile,password,done){
-        const options = {
-            criteria:{ mobile:mobile},
-            select:''
-        };
-        User.load(options,function(err,user){
-            
-        });
+module.exports = function(passport){
+    passport.serializeUser((user,cb) => cb(null,user.id));
+    passport.deserializeUser((id,cb) =>User.load({criteria:{_id:id}},cb));
 
-    }
-);
+    passport.use(local);
+}
